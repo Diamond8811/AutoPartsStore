@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="1e87b093d9de4549a84b32a89c47c2ef" Name="Diagram1">
+        <EntityTypeShape EntityType="AutoPartsStoreDBModel.ActivityLog" Width="1.5" PointX="5.25" PointY="8.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="AutoPartsStoreDBModel.Brands" Width="1.5" PointX="0.75" PointY="6" IsExpanded="true" />
+        <EntityTypeShape EntityType="AutoPartsStoreDBModel.Cars" Width="1.5" PointX="0.75" PointY="11.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="AutoPartsStoreDBModel.Categories" Width="1.5" PointX="0.75" PointY="14" IsExpanded="true" />
+        <EntityTypeShape EntityType="AutoPartsStoreDBModel.Customers" Width="1.5" PointX="6" PointY="1.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="AutoPartsStoreDBModel.OrderItems" Width="1.5" PointX="10.5" PointY="8.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="AutoPartsStoreDBModel.Orders" Width="1.5" PointX="8.25" PointY="8" IsExpanded="true" />
+        <EntityTypeShape EntityType="AutoPartsStoreDBModel.OrderStatuses" Width="1.5" PointX="6" PointY="16.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="AutoPartsStoreDBModel.PriceHistory" Width="1.5" PointX="5.25" PointY="4.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="AutoPartsStoreDBModel.Products" Width="1.5" PointX="3" PointY="1.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="AutoPartsStoreDBModel.ReturnItems" Width="1.5" PointX="15.75" PointY="8.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="AutoPartsStoreDBModel.ReturnReasons" Width="1.5" PointX="11.25" PointY="5.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="AutoPartsStoreDBModel.Returns" Width="1.5" PointX="13.5" PointY="8.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="AutoPartsStoreDBModel.Roles" Width="1.5" PointX="0.75" PointY="8.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="AutoPartsStoreDBModel.StockReceivingItems" Width="1.5" PointX="7.5" PointY="12.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="AutoPartsStoreDBModel.StockReceivings" Width="1.5" PointX="5.25" PointY="12.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="AutoPartsStoreDBModel.Suppliers" Width="1.5" PointX="3" PointY="12.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="AutoPartsStoreDBModel.sysdiagrams" Width="1.5" PointX="7.75" PointY="4.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="AutoPartsStoreDBModel.Users" Width="1.5" PointX="3" PointY="8" IsExpanded="true" />
+        <AssociationConnector Association="AutoPartsStoreDBModel.FK_ActivityLog_Users" ManuallyRouted="false" />
+        <AssociationConnector Association="AutoPartsStoreDBModel.FK_Products_Brands" ManuallyRouted="false" />
+        <AssociationConnector Association="AutoPartsStoreDBModel.FK_Products_Categories" ManuallyRouted="false" />
+        <AssociationConnector Association="AutoPartsStoreDBModel.FK_Orders_Customer" ManuallyRouted="false" />
+        <AssociationConnector Association="AutoPartsStoreDBModel.FK_OI_Order" ManuallyRouted="false" />
+        <AssociationConnector Association="AutoPartsStoreDBModel.FK_OI_Product" ManuallyRouted="false" />
+        <AssociationConnector Association="AutoPartsStoreDBModel.FK_RI_OrderItem" ManuallyRouted="false" />
+        <AssociationConnector Association="AutoPartsStoreDBModel.FK_Orders_Status" ManuallyRouted="false" />
+        <AssociationConnector Association="AutoPartsStoreDBModel.FK_Orders_User" ManuallyRouted="false" />
+        <AssociationConnector Association="AutoPartsStoreDBModel.FK_Return_Order" ManuallyRouted="false" />
+        <AssociationConnector Association="AutoPartsStoreDBModel.FK_PH_Product" ManuallyRouted="false" />
+        <AssociationConnector Association="AutoPartsStoreDBModel.FK_PH_User" ManuallyRouted="false" />
+        <AssociationConnector Association="AutoPartsStoreDBModel.FK_SRI_Product" ManuallyRouted="false" />
+        <AssociationConnector Association="AutoPartsStoreDBModel.FK_RI_Return" ManuallyRouted="false" />
+        <AssociationConnector Association="AutoPartsStoreDBModel.FK_Return_Reason" ManuallyRouted="false" />
+        <AssociationConnector Association="AutoPartsStoreDBModel.FK_Return_User" ManuallyRouted="false" />
+        <AssociationConnector Association="AutoPartsStoreDBModel.FK_Users_Roles" ManuallyRouted="false" />
+        <AssociationConnector Association="AutoPartsStoreDBModel.FK_SRI_Receiving" ManuallyRouted="false" />
+        <AssociationConnector Association="AutoPartsStoreDBModel.FK_SR_Supplier" ManuallyRouted="false" />
+        <AssociationConnector Association="AutoPartsStoreDBModel.FK_SR_User" ManuallyRouted="false" />
+        <AssociationConnector Association="AutoPartsStoreDBModel.ProductCompatibilities" ManuallyRouted="false" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>

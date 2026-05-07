@@ -1,0 +1,28 @@
+﻿<UserControl x:Class="AutoPartsStore.Views.StockReceivingsView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+    <Grid Margin="10">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <WrapPanel Grid.Row="0" Margin="0,0,0,10">
+            <Button Content="➕ Новое поступление" Command="{Binding CreateReceivingCommand}"/>
+            <Button Content="🔄 Обновить" Command="{Binding RefreshCommand}"/>
+        </WrapPanel>
+
+        <DataGrid Grid.Row="1" ItemsSource="{Binding StockReceivings}" AutoGenerateColumns="False" IsReadOnly="True" AlternatingRowBackground="#F9F9F9">
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="№" Binding="{Binding ReceivingId}" Width="80"/>
+                <DataGridTextColumn Header="Дата" Binding="{Binding ReceivingDate, StringFormat=dd.MM.yyyy HH:mm}" Width="150"/>
+                <DataGridTextColumn Header="Поставщик" Binding="{Binding Suppliers.Name}" Width="250"/>
+                <DataGridTextColumn Header="Пользователь" Binding="{Binding Users.FullName}" Width="200"/>
+            </DataGrid.Columns>
+        </DataGrid>
+
+        <ProgressBar Grid.RowSpan="2" IsIndeterminate="{Binding IsBusy}" Width="150" Height="10"
+                     HorizontalAlignment="Center" VerticalAlignment="Center"
+                     Visibility="{Binding IsBusy, Converter={StaticResource BoolToVisibility}}"/>
+    </Grid>
+</UserControl>

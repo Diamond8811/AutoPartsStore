@@ -1,0 +1,50 @@
+﻿<Window x:Class="AutoPartsStore.Views.CreateOrderWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="Создание заказа" Height="600" Width="800"
+        WindowStartupLocation="CenterOwner">
+    <Grid Margin="10">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+
+        <!-- Выбор клиента -->
+        <Border Grid.Row="0" Background="{StaticResource CardBackgroundBrush}" Padding="10" CornerRadius="8" Margin="0,0,0,10">
+            <WrapPanel>
+                <TextBlock Text="Клиент:" VerticalAlignment="Center" Margin="5,0,2,0"/>
+                <ComboBox ItemsSource="{Binding Customers}" DisplayMemberPath="FullName"
+                          SelectedItem="{Binding SelectedClient}" Width="250" Margin="5"/>
+            </WrapPanel>
+        </Border>
+
+        <!-- Добавление товара -->
+        <Border Grid.Row="1" Background="{StaticResource CardBackgroundBrush}" Padding="10" CornerRadius="8" Margin="0,0,0,10">
+            <WrapPanel>
+                <TextBlock Text="Товар:" VerticalAlignment="Center" Margin="5,0,2,0"/>
+                <ComboBox ItemsSource="{Binding Products}" DisplayMemberPath="Name"
+                          SelectedItem="{Binding SelectedProduct}" Width="250" Margin="5"/>
+
+                <TextBlock Text="Кол-во:" VerticalAlignment="Center" Margin="5,0,2,0"/>
+                <TextBox Text="{Binding Quantity, UpdateSourceTrigger=PropertyChanged}" Width="60" Margin="5"/>
+
+                <Button Content="➕ Добавить в корзину" Command="{Binding AddToCartCommand}" Margin="5"/>
+            </WrapPanel>
+        </Border>
+
+        <!-- Корзина -->
+        <DataGrid Grid.Row="2" ItemsSource="{Binding Cart}" AutoGenerateColumns="False" IsReadOnly="True" AlternatingRowBackground="#F9F9F9">
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="Товар" Binding="{Binding Product.Name}" Width="*"/>
+                <DataGridTextColumn Header="Кол-во" Binding="{Binding Quantity}" Width="100"/>
+            </DataGrid.Columns>
+        </DataGrid>
+
+        <StackPanel Grid.Row="3" Orientation="Horizontal" HorizontalAlignment="Right" Margin="0,10,0,0">
+            <Button Content="💾 Создать заказ" Command="{Binding SaveOrderCommand}" Margin="5"/>
+            <Button Content="❌ Отмена" Click="Close" Margin="5"/>
+        </StackPanel>
+    </Grid>
+</Window>

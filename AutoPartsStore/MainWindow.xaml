@@ -1,0 +1,29 @@
+﻿<Window x:Class="AutoPartsStore.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="Учёт автозапчастей — Интернет-магазин"
+        Height="800" Width="1400" WindowStartupLocation="CenterScreen">
+    <DockPanel>
+        <!-- Верхняя панель с кнопками -->
+        <Border DockPanel.Dock="Top" Background="{StaticResource PrimaryDarkBrush}" Padding="10,5">
+            <ScrollViewer HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Disabled">
+                <StackPanel Orientation="Horizontal">
+                    <Button Content="📊 Главная" Command="{Binding ShowDashboardCommand}" Style="{StaticResource NavButton}"/>
+                    <Button Content="📦 Товары" Command="{Binding ShowProductsCommand}" Style="{StaticResource NavButton}"/>
+                    <Button Content="🛒 Заказы" Command="{Binding ShowOrdersCommand}" Style="{StaticResource NavButton}"/>
+                    <Button Content="🏭 Склад" Command="{Binding ShowStockCommand}" Style="{StaticResource NavButton}"/>
+                    <Button Content="🔄 Возвраты" Command="{Binding ShowReturnsCommand}" Style="{StaticResource NavButton}"/>
+                    <Button Content="👥 Клиенты" Command="{Binding ShowCustomersCommand}" Style="{StaticResource NavButton}"/>
+                    <Button Content="🏢 Поставщики" Command="{Binding ShowSuppliersCommand}" Style="{StaticResource NavButton}"/>
+                    <Button Content="📈 Отчёты" Command="{Binding ShowReportsCommand}" Style="{StaticResource NavButton}"/>
+                    <Button Content="⚙ Администрирование" Command="{Binding ShowAdminCommand}" 
+                            Visibility="{Binding IsAdmin, Converter={StaticResource BoolToVisibility}}"
+                            Style="{StaticResource NavButton}"/>
+                </StackPanel>
+            </ScrollViewer>
+        </Border>
+
+        <!-- Контент -->
+        <ContentControl Content="{Binding CurrentView}" Margin="20"/>
+    </DockPanel>
+</Window>
