@@ -85,7 +85,6 @@ namespace AutoPartsStore.ViewModels
                     Price = UnitPrice
                 });
 
-                // Очищаем поля после добавления
                 SelectedProduct = null;
                 Quantity = 0;
                 UnitPrice = 0;

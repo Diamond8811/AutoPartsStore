@@ -11,7 +11,6 @@
             <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
 
-        <!-- Выбор клиента -->
         <Border Grid.Row="0" Background="{StaticResource CardBackgroundBrush}" Padding="10" CornerRadius="8" Margin="0,0,0,10">
             <WrapPanel>
                 <TextBlock Text="Клиент:" VerticalAlignment="Center" Margin="5,0,2,0"/>
@@ -34,7 +33,6 @@
             </WrapPanel>
         </Border>
 
-        <!-- Корзина -->
         <DataGrid Grid.Row="2" ItemsSource="{Binding Cart}" AutoGenerateColumns="False" IsReadOnly="True" AlternatingRowBackground="#F9F9F9">
             <DataGrid.Columns>
                 <DataGridTextColumn Header="Товар" Binding="{Binding Product.Name}" Width="*"/>
@@ -43,8 +41,8 @@
         </DataGrid>
 
         <StackPanel Grid.Row="3" Orientation="Horizontal" HorizontalAlignment="Right" Margin="0,10,0,0">
-            <Button Content="💾 Создать заказ" Command="{Binding SaveOrderCommand}" Margin="5"/>
-            <Button Content="❌ Отмена" Click="Close" Margin="5"/>
+            <Button Content="Создать заказ" Command="{Binding SaveOrderCommand}"   Margin="5"/>
+            <Button Content="Отмена" Click="Close" Margin="5"/>
         </StackPanel>
     </Grid>
 </Window>

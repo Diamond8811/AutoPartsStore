@@ -131,14 +131,26 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="Infrastructure\EqualsConverter.cs" />
+    <Compile Include="Infrastructure\InverseBoolToVisibility.cs" />
     <Compile Include="Infrastructure\MultiplyConverter.cs" />
+    <Compile Include="Infrastructure\ObjectToVisibilityConverter.cs" />
     <Compile Include="Infrastructure\PasswordBoxHelper.cs" />
     <Compile Include="Infrastructure\PasswordHelper.cs" />
     <Compile Include="Infrastructure\SnackbarService.cs" />
+    <Compile Include="Models\Brands.partial.cs" />
+    <Compile Include="Models\Categories.partial.cs" />
+    <Compile Include="Models\Customers.partial.cs" />
     <Compile Include="Models\OrderCartItem.cs" />
+    <Compile Include="Models\OrderItems.partial.cs" />
+    <Compile Include="Models\Orders.partial.cs" />
+    <Compile Include="Models\OrderStatuses.partial.cs" />
+    <Compile Include="Models\Products.partial.cs" />
     <Compile Include="Models\ReceivingItem.cs" />
+    <Compile Include="Models\ReturnReasons.partial.cs" />
+    <Compile Include="Models\Roles.partial.cs" />
+    <Compile Include="Models\Suppliers.partial.cs" />
+    <Compile Include="Models\Users.partial.cs" />
     <Compile Include="Services\AuthService.cs" />
-    <Compile Include="Services\ExcelImportService.cs" />
     <Compile Include="Services\ExcelService.cs" />
     <Compile Include="Services\LogService.cs" />
     <Compile Include="Services\OrderService.cs" />
@@ -151,7 +163,9 @@
     <Compile Include="ViewModels\CreateStockReceivingViewModel.cs" />
     <Compile Include="ViewModels\CustomersViewModel.cs" />
     <Compile Include="ViewModels\DashboardViewModel.cs" />
+    <Compile Include="ViewModels\EditProductViewModel.cs" />
     <Compile Include="ViewModels\LoginViewModel.cs" />
+    <Compile Include="ViewModels\LogsViewModel.cs" />
     <Compile Include="ViewModels\MainViewModel.cs" />
     <Compile Include="ViewModels\OrdersViewModel.cs" />
     <Compile Include="ViewModels\ProductsViewModel.cs" />
@@ -177,8 +191,14 @@
     <Compile Include="Views\DashboardView.xaml.cs">
       <DependentUpon>DashboardView.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Views\EditProductWindow.xaml.cs">
+      <DependentUpon>EditProductWindow.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\LoginWindow.xaml.cs">
       <DependentUpon>LoginWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\LogsView.xaml.cs">
+      <DependentUpon>LogsView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\OrdersView.xaml.cs">
       <DependentUpon>OrdersView.xaml</DependentUpon>
@@ -237,7 +257,15 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Views\EditProductWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Views\LoginWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\LogsView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

@@ -17,7 +17,7 @@ namespace AutoPartsStore.Services
                     {
                         CustomerId = customerId,
                         OrderDate = DateTime.Now,
-                        StatusId = 1, // "Новый"
+                        StatusId = 1,
                         UserId = userId
                     };
                     db.Orders.Add(order);

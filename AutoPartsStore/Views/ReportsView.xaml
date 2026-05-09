@@ -25,7 +25,12 @@
             <Button Content="📎 Экспорт в Excel" Command="{Binding ExportReportCommand}" Margin="5"/>
         </WrapPanel>
 
-        <DataGrid Grid.Row="2" ItemsSource="{Binding ReportData}" AutoGenerateColumns="True" IsReadOnly="True" AlternatingRowBackground="#F9F9F9"/>
+        <DataGrid Grid.Row="2"
+                  Name="ReportGrid"
+                  ItemsSource="{Binding ReportData}"
+                  AutoGenerateColumns="False"
+                  IsReadOnly="True"
+                  AlternatingRowBackground="#F9F9F9"/>
 
         <ProgressBar Grid.RowSpan="3" IsIndeterminate="{Binding IsBusy}" Width="200" Height="10"
                      HorizontalAlignment="Center" VerticalAlignment="Center"

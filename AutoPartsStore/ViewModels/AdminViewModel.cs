@@ -1,14 +1,17 @@
-﻿using System.Collections.ObjectModel;
+﻿using System;
+using System.Collections.ObjectModel;
+using System.Data.Entity;
 using System.Linq;
-using System.Windows.Input;
 using AutoPartsStore.Infrastructure;
 using AutoPartsStore.Models;
+using AutoPartsStore.Services;
 
 namespace AutoPartsStore.ViewModels
 {
     public class AdminViewModel : BaseViewModel
     {
         private readonly Users _currentUser;
+
         public ObservableCollection<Users> Users { get; set; }
         public ObservableCollection<Roles> Roles { get; set; }
 
@@ -22,109 +25,186 @@ namespace AutoPartsStore.ViewModels
                 {
                     _selectedUser = value;
                     OnPropertyChanged();
-                    CommandManager.InvalidateRequerySuggested();
-                    // Принудительно обновляем команды
-                    ToggleBlockCommand?.RaiseCanExecuteChanged();
-                    ResetPasswordCommand?.RaiseCanExecuteChanged();
-                    SaveRoleCommand?.RaiseCanExecuteChanged();
                 }
             }
         }
 
-        public RelayCommand RefreshCommand { get; }
+        public RelayCommand AddUserCommand { get; }
+        public RelayCommand DeleteUserCommand { get; }
         public RelayCommand ToggleBlockCommand { get; }
         public RelayCommand ResetPasswordCommand { get; }
-        public RelayCommand SaveRoleCommand { get; }
+        public RelayCommand GeneratePasswordCommand { get; }
+        public RelayCommand SaveUserCommand { get; }
 
         public AdminViewModel(Users currentUser)
         {
             _currentUser = currentUser;
+
             Users = new ObservableCollection<Users>();
             Roles = new ObservableCollection<Roles>();
 
-            RefreshCommand = new RelayCommand(_ => LoadData());
-            ToggleBlockCommand = new RelayCommand(_ => ToggleBlock(), _ => CanExecuteAction());
-            ResetPasswordCommand = new RelayCommand(_ => ResetPassword(), _ => CanExecuteAction());
-            SaveRoleCommand = new RelayCommand(_ => SaveRole(), _ => CanExecuteAction());
+            AddUserCommand = new RelayCommand(_ => AddUser());
+            DeleteUserCommand = new RelayCommand(_ => DeleteUser(), _ => SelectedUser != null);
+            ToggleBlockCommand = new RelayCommand(_ => ToggleBlock(), _ => SelectedUser != null);
+            ResetPasswordCommand = new RelayCommand(_ => ResetPassword(), _ => SelectedUser != null);
+            GeneratePasswordCommand = new RelayCommand(_ => GeneratePassword(), _ => SelectedUser != null);
+            SaveUserCommand = new RelayCommand(_ => SaveUser(), _ => SelectedUser != null);
 
             LoadData();
         }
-
-        private bool CanExecuteAction() => SelectedUser != null && SelectedUser.UserId != _currentUser.UserId;
 
         private void LoadData()
         {
             using (var db = new AutoPartsStoreDBEntities())
             {
-                var users = db.Users.Include("Roles").ToList();
-                var roles = db.Roles.ToList();
                 Users.Clear();
-                foreach (var u in users) Users.Add(u);
+                foreach (var u in db.Users.Include("Roles").ToList())
+                    Users.Add(u);
+
                 Roles.Clear();
-                foreach (var r in roles) Roles.Add(r);
+                foreach (var r in db.Roles.ToList())
+                    Roles.Add(r);
             }
-            // После загрузки данных обновляем команды
-            CommandManager.InvalidateRequerySuggested();
-            RefreshCommand.RaiseCanExecuteChanged();
-            ToggleBlockCommand.RaiseCanExecuteChanged();
-            ResetPasswordCommand.RaiseCanExecuteChanged();
-            SaveRoleCommand.RaiseCanExecuteChanged();
+        }
+
+        private void AddUser()
+        {
+            using (var db = new AutoPartsStoreDBEntities())
+            {
+                if (db.Users.Any(u => u.Login == "new_user"))
+                {
+                    SnackbarService.Show("Пользователь new_user уже существует");
+                    return;
+                }
+
+                var defaultRole = db.Roles.FirstOrDefault();
+
+                var newUser = new Users
+                {
+                    Login = "new_user",
+                    FullName = "Новый пользователь",
+                    PasswordHash = PasswordHelper.HashPassword("1234"),
+                    RoleId = defaultRole?.RoleId ?? 1,
+                    IsActive = true
+                };
+
+                db.Users.Add(newUser);
+                db.SaveChanges();
+
+                new LogService().Log(_currentUser.UserId, "INSERT", "Users", newUser.UserId, "Создан новый пользователь");
+
+                LoadData();
+                SnackbarService.Show("Пользователь добавлен. Пароль: 1234");
+            }
+        }
+
+        private void DeleteUser()
+        {
+            using (var db = new AutoPartsStoreDBEntities())
+            {
+                var user = db.Users.Find(SelectedUser.UserId);
+
+                if (user == null) return;
+
+                if (user.UserId == _currentUser.UserId)
+                {
+                    SnackbarService.Show("Нельзя удалить самого себя");
+                    return;
+                }
+
+                db.Users.Remove(user);
+                db.SaveChanges();
+
+                new LogService().Log(_currentUser.UserId, "DELETE", "Users", user.UserId, "Удалён пользователь");
+
+                LoadData();
+                SnackbarService.Show("Пользователь удалён");
+            }
         }
 
         private void ToggleBlock()
         {
-            if (SelectedUser == null) return;
             using (var db = new AutoPartsStoreDBEntities())
             {
                 var user = db.Users.Find(SelectedUser.UserId);
-                if (user != null)
-                {
-                    user.IsActive = !user.IsActive;
-                    db.SaveChanges();
-                    SnackbarService.Show($"Пользователь {user.Login} {(user.IsActive ? "разблокирован" : "заблокирован")}");
-                    LoadData();
-                }
+                if (user == null) return;
+
+                user.IsActive = !user.IsActive;
+                db.SaveChanges();
+
+                new LogService().Log(_currentUser.UserId, "UPDATE", "Users", user.UserId, "Изменён статус активности");
+
+                SnackbarService.Show(user.IsActive ? "Пользователь разблокирован" : "Пользователь заблокирован");
+                LoadData();
             }
         }
 
         private void ResetPassword()
         {
-            if (SelectedUser == null) return;
-            string newPassword = GenerateRandomPassword();
-            string newHash = PasswordHelper.HashPassword(newPassword);
             using (var db = new AutoPartsStoreDBEntities())
             {
                 var user = db.Users.Find(SelectedUser.UserId);
-                if (user != null)
-                {
-                    user.PasswordHash = newHash;
-                    db.SaveChanges();
-                    SnackbarService.Show($"Новый пароль для {user.Login}: {newPassword}");
-                }
+                if (user == null) return;
+
+                user.PasswordHash = PasswordHelper.HashPassword("1234");
+                db.SaveChanges();
+
+                new LogService().Log(_currentUser.UserId, "UPDATE", "Users", user.UserId, "Сброс пароля");
+
+                SnackbarService.Show("Пароль сброшен на 1234");
             }
         }
 
-        private void SaveRole()
+        private void GeneratePassword()
         {
-            if (SelectedUser == null) return;
+            string newPassword = GenerateRandomPassword();
+
             using (var db = new AutoPartsStoreDBEntities())
             {
                 var user = db.Users.Find(SelectedUser.UserId);
-                if (user != null && user.RoleId != SelectedUser.RoleId)
+                if (user == null) return;
+
+                user.PasswordHash = PasswordHelper.HashPassword(newPassword);
+                db.SaveChanges();
+
+                new LogService().Log(_currentUser.UserId, "UPDATE", "Users", user.UserId, "Сгенерирован новый пароль");
+
+                SnackbarService.Show("Новый пароль: " + newPassword);
+            }
+        }
+
+        private void SaveUser()
+        {
+            using (var db = new AutoPartsStoreDBEntities())
+            {
+                if (db.Users.Any(u => u.Login == SelectedUser.Login && u.UserId != SelectedUser.UserId))
                 {
-                    user.RoleId = SelectedUser.RoleId;
-                    db.SaveChanges();
-                    SnackbarService.Show($"Роль пользователя {user.Login} изменена");
-                    LoadData();
+                    SnackbarService.Show("Логин уже занят");
+                    return;
                 }
+
+                var user = db.Users.Find(SelectedUser.UserId);
+                if (user == null) return;
+
+                user.Login = SelectedUser.Login;
+                user.FullName = SelectedUser.FullName;
+                user.RoleId = SelectedUser.Roles.RoleId;
+
+                db.SaveChanges();
+
+                new LogService().Log(_currentUser.UserId, "UPDATE", "Users", user.UserId, "Обновлены данные пользователя");
+
+                SnackbarService.Show("Изменения сохранены");
+                LoadData();
             }
         }
 
         private string GenerateRandomPassword(int length = 8)
         {
-            const string chars = "ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnopqrstuvwxyz0123456789!@#$%";
-            var random = new System.Random();
-            return new string(Enumerable.Repeat(chars, length).Select(s => s[random.Next(s.Length)]).ToArray());
+            const string chars = "ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnopqrstuvwxyz0123456789";
+            var random = new Random();
+            return new string(Enumerable.Repeat(chars, length)
+                .Select(s => s[random.Next(s.Length)]).ToArray());
         }
     }
 }

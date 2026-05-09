@@ -10,10 +10,10 @@
 
         <WrapPanel Grid.Row="0" Margin="0,0,0,10">
             <Button Content="Добавить" Command="{Binding AddCommand}"/>
-            <Button Content="Удалить" Command="{Binding DeleteCommand}"/>
+            <Button Content="Удалить" Command="{Binding DeleteCommand}" Style="{StaticResource DangerButton}"/>
             <Button Content="Сохранить" Command="{Binding SaveCommand}"/>
-            <Button Content="Импорт Excel" Command="{Binding ImportExcelCommand}"/>
             <Button Content="Экспорт Excel" Command="{Binding ExportExcelCommand}"/>
+            <Button Content="Редактировать" Command="{Binding EditCommand}"/>
         </WrapPanel>
 
         <Border Grid.Row="1" Background="{StaticResource CardBackgroundBrush}" Padding="15" CornerRadius="8" Margin="0,0,0,10">

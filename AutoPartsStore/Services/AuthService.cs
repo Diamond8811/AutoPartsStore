@@ -13,7 +13,6 @@ namespace AutoPartsStore.Services
                 var user = db.Users.Include("Roles").FirstOrDefault(u => u.Login == login && u.IsActive);
                 if (user == null) return null;
 
-                // Проверка на null хеша
                 if (string.IsNullOrEmpty(user.PasswordHash))
                 {
                     System.Diagnostics.Debug.WriteLine("PasswordHash is null or empty for user " + login);

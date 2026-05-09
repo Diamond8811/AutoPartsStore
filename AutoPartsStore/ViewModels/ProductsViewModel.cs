@@ -27,6 +27,7 @@ namespace AutoPartsStore.ViewModels
         public ObservableCollection<Brands> Brands { get; set; }
         public ObservableCollection<Categories> Categories { get; set; }
         public Products SelectedProduct { get; set; }
+        public RelayCommand EditCommand { get; }
 
         public string FilterArticle
         {
@@ -72,6 +73,7 @@ namespace AutoPartsStore.ViewModels
         public RelayCommand ImportExcelCommand { get; }
         public RelayCommand ExportExcelCommand { get; }
 
+
         public ProductsViewModel(Users user)
         {
             _currentUser = user;
@@ -84,10 +86,19 @@ namespace AutoPartsStore.ViewModels
             SaveCommand = new RelayCommand(_ => SaveChangesAsync());
             FilterCommand = new RelayCommand(_ => LoadFilteredProductsAsync());
             ResetFilterCommand = new RelayCommand(_ => ResetFilters());
-            ImportExcelCommand = new RelayCommand(_ => ImportExcel());
             ExportExcelCommand = new RelayCommand(_ => ExportExcel());
+            EditCommand = new RelayCommand(_ => OpenEditWindow(), _ => SelectedProduct != null);
 
             LoadInitialDataAsync();
+        }
+
+        private void OpenEditWindow()
+        {
+            var window = new Views.EditProductWindow();
+            window.DataContext = new EditProductViewModel(SelectedProduct);
+            window.Owner = System.Windows.Application.Current.MainWindow;
+            window.ShowDialog();
+            LoadFilteredProductsAsync();
         }
 
         private async void LoadInitialDataAsync()
@@ -204,20 +215,7 @@ namespace AutoPartsStore.ViewModels
             });
         }
 
-        private async void ImportExcel()
-        {
-            var dialog = new OpenFileDialog { Filter = "Excel files (*.xlsx)|*.xlsx" };
-            if (dialog.ShowDialog() == true)
-            {
-                await ExecuteAsync("импорта товаров", () =>
-                {
-                    var service = new ExcelImportService();
-                    var (added, updated) = service.ImportProducts(dialog.FileName, _currentUser.UserId);
-                    SnackbarService.Show($"Импорт завершён: добавлено {added}, обновлено {updated}");
-                    LoadFilteredProductsAsync().Wait();
-                });
-            }
-        }
+
 
         private async void ExportExcel()
         {
