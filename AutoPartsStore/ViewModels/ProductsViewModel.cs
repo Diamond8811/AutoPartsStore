@@ -188,16 +188,25 @@ namespace AutoPartsStore.ViewModels
         private void DeleteProduct()
         {
             if (SelectedProduct == null) return;
+
             using (var db = new AutoPartsStoreDBEntities())
             {
                 var product = db.Products.Find(SelectedProduct.ProductId);
-                if (product != null)
+                if (product == null) return;
+
+                bool hasOrderItems = db.OrderItems.Any(oi => oi.ProductId == product.ProductId);
+
+                if (hasOrderItems)
                 {
-                    db.Products.Remove(product);
-                    db.SaveChanges();
-                    Products.Remove(SelectedProduct);
-                    SnackbarService.Show("Товар удалён");
+                    SnackbarService.Show("Невозможно удалить товар, так как он используется в заказах");
+                    return;
                 }
+
+                db.Products.Remove(product);
+                db.SaveChanges();
+
+                Products.Remove(SelectedProduct);
+                SnackbarService.Show("Товар удалён");
             }
         }
 

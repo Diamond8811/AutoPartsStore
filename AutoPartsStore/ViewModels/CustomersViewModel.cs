@@ -92,20 +92,29 @@ namespace AutoPartsStore.ViewModels
         private void DeleteCustomer()
         {
             if (SelectedCustomer == null) return;
+
             using (var db = new AutoPartsStoreDBEntities())
             {
                 var customer = db.Customers.Find(SelectedCustomer.CustomerId);
-                if (customer != null)
-                {
-                    db.Customers.Remove(customer);
-                    db.SaveChanges();
-                    Customers.Remove(SelectedCustomer);
-                    SnackbarService.Show("Клиент удалён");
-                }
-                else
+                if (customer == null)
                 {
                     SnackbarService.Show("Клиент не найден в базе");
+                    return;
                 }
+
+                bool hasOrders = db.Orders.Any(o => o.CustomerId == customer.CustomerId);
+
+                if (hasOrders)
+                {
+                    SnackbarService.Show("Невозможно удалить клиента, так как у него есть заказы");
+                    return;
+                }
+
+                db.Customers.Remove(customer);
+                db.SaveChanges();
+
+                Customers.Remove(SelectedCustomer);
+                SnackbarService.Show("Клиент удалён");
             }
         }
 
