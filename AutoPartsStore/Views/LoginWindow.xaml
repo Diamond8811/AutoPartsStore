@@ -3,15 +3,16 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:local="clr-namespace:AutoPartsStore.Infrastructure"
         Title="Вход в систему" Height="400" Width="400"
-        WindowStartupLocation="CenterScreen" ResizeMode="NoResize">
+        WindowStartupLocation="CenterScreen" ResizeMode="NoResize"
+        Background="{StaticResource BackgroundBrush}">
     <Grid Margin="30">
         <StackPanel VerticalAlignment="Center">
             <TextBlock Text="Авторизация" FontSize="24" FontWeight="Bold"
-                       Foreground="{StaticResource AccentBrush}" HorizontalAlignment="Center" Margin="0,0,0,30"/>
-            <TextBlock Text="Логин" FontSize="12" Margin="5,0,5,0" Foreground="{StaticResource TextSecondaryBrush}"/>
+                       Foreground="#F5F5F5" HorizontalAlignment="Center" Margin="0,0,0,30"/>
+            <TextBlock Text="Логин" FontSize="12" Margin="5,0,5,0" Foreground="{StaticResource TextSecondaryBrush}" FontWeight="Bold"/>
             <TextBox Text="{Binding Login, UpdateSourceTrigger=PropertyChanged}"
                      Margin="0 5" ToolTip="Введите логин"/>
-            <TextBlock Text="Пароль" FontSize="12" Margin="5,10,5,0" Foreground="{StaticResource TextSecondaryBrush}"/>
+            <TextBlock Text="Пароль" FontSize="12" Margin="5,10,5,0" Foreground="{StaticResource TextSecondaryBrush}" FontWeight="Bold"/>
             <PasswordBox Margin="0 5" ToolTip="Введите пароль"
                          local:PasswordBoxHelper.BindPassword="True"
                          local:PasswordBoxHelper.BoundPassword="{Binding Password, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>

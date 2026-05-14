@@ -8,15 +8,15 @@
     <Application.Resources>
         <Color x:Key="PrimaryLight">#F4F6F9</Color>
         <Color x:Key="PrimaryDark">#2C3E50</Color>
-        <Color x:Key="Accent">#5D6D7E</Color>
+        <Color x:Key="Accent">#55F1D1</Color>
         <Color x:Key="AccentHover">#34495E</Color>
         <Color x:Key="Secondary">#E74C3C</Color>
         <Color x:Key="Success">#27AE60</Color>
         <Color x:Key="TextPrimary">#2C3E50</Color>
-        <Color x:Key="TextSecondary">#7F8C8D</Color>
+        <Color x:Key="TextSecondary">#1E1E1E</Color>
         <Color x:Key="BorderColor">#D5D8DC</Color>
         <Color x:Key="CardBackground">#FFFFFF</Color>
-        <Color x:Key="Background">#F4F6F9</Color>
+        <Color x:Key="Background">#5581F1</Color>
 
         <SolidColorBrush x:Key="PrimaryLightBrush" Color="{StaticResource PrimaryLight}"/>
         <SolidColorBrush x:Key="PrimaryDarkBrush" Color="{StaticResource PrimaryDark}"/>
@@ -58,7 +58,7 @@
                         </Border>
                         <ControlTemplate.Triggers>
                             <Trigger Property="IsMouseOver" Value="True">
-                                <Setter Property="Background" Value="{StaticResource AccentBrush}"/>
+                                <Setter Property="Background" Value="#C165DD"/>
                             </Trigger>
                         </ControlTemplate.Triggers>
                     </ControlTemplate>
@@ -68,8 +68,8 @@
 
         <Style TargetType="Button">
             <Setter Property="Background" Value="{StaticResource AccentBrush}"/>
-            <Setter Property="Foreground" Value="White"/>
-            <Setter Property="BorderBrush" Value="{StaticResource AccentBrush}"/>
+            <Setter Property="Foreground" Value="#1E3A8A"/>
+            <Setter Property="BorderBrush" Value="#1DE5E2"/>
             <Setter Property="BorderThickness" Value="1"/>
             <Setter Property="Padding" Value="5"/>
             <Setter Property="Margin" Value="5"/>
@@ -86,8 +86,8 @@
                         </Border>
                         <ControlTemplate.Triggers>
                             <Trigger Property="IsMouseOver" Value="True">
-                                <Setter Property="Background" Value="{StaticResource AccentHoverBrush}"/>
-                                <Setter Property="BorderBrush" Value="{StaticResource AccentHoverBrush}"/>
+                                <Setter Property="Background" Value="#C165DD"/>
+                                <Setter Property="BorderBrush" Value="White"/>
                             </Trigger>
                             <Trigger Property="IsPressed" Value="True">
                                 <Setter Property="Background" Value="{StaticResource SecondaryBrush}"/>
@@ -104,11 +104,13 @@
 
 
         <Style x:Key="AccentButton" TargetType="Button" BasedOn="{StaticResource {x:Type Button}}">
-            <Setter Property="Background" Value="#5D6D7E"/>
+            <Setter Property="Background" Value="{StaticResource AccentBrush}"/>
         </Style>
 
         <Style x:Key="DangerButton" TargetType="Button" BasedOn="{StaticResource {x:Type Button}}">
             <Setter Property="Background" Value="#E74C3C"/>
+            <Setter Property="BorderBrush" Value="Orange"/>
+
         </Style>
 
 
@@ -255,29 +257,54 @@
         </Style>
 
         <Style TargetType="DataGrid">
-            <Setter Property="Background" Value="{StaticResource CardBackgroundBrush}"/>
-            <Setter Property="Foreground" Value="{StaticResource TextPrimaryBrush}"/>
-            <Setter Property="BorderBrush" Value="{StaticResource BorderColorBrush}"/>
-            <Setter Property="BorderThickness" Value="1"/>
-            <Setter Property="RowBackground" Value="{StaticResource CardBackgroundBrush}"/>
-            <Setter Property="AlternatingRowBackground" Value="#F9F9F9"/>
+            <Setter Property="Background" Value="#FFFFFF"/>
+            <Setter Property="Foreground" Value="#1A2A3A"/>
+            <Setter Property="BorderBrush" Value="#FFB347"/>
+            <Setter Property="BorderThickness" Value="2"/>
+            <Setter Property="RowBackground" Value="#FFFFFF"/>
+            <Setter Property="AlternatingRowBackground" Value="#F0F4FF"/>
             <Setter Property="GridLinesVisibility" Value="Horizontal"/>
-            <Setter Property="HorizontalGridLinesBrush" Value="#E0E0E0"/>
+            <Setter Property="HorizontalGridLinesBrush" Value="#FFD699"/>
             <Setter Property="VerticalGridLinesBrush" Value="Transparent"/>
             <Setter Property="FontSize" Value="12"/>
+            <Setter Property="Margin" Value="5"/>
         </Style>
+
         <Style TargetType="DataGridColumnHeader">
-            <Setter Property="Background" Value="{StaticResource PrimaryDarkBrush}"/>
-            <Setter Property="Foreground" Value="White"/>
-            <Setter Property="BorderBrush" Value="{StaticResource BorderColorBrush}"/>
-            <Setter Property="BorderThickness" Value="0,0,1,1"/>
-            <Setter Property="Padding" Value="8,6"/>
+            <Setter Property="Background" Value="#FF8C42"/>
+            <Setter Property="Foreground" Value="#FFFFFF"/>
             <Setter Property="FontWeight" Value="Bold"/>
+            <Setter Property="BorderBrush" Value="#FFB347"/>
+            <Setter Property="BorderThickness" Value="0,0,1,1"/>
+            <Setter Property="Padding" Value="10,8"/>
+            <Setter Property="FontSize" Value="13"/>
+            <Setter Property="Cursor" Value="Hand"/>
+            <Style.Triggers>
+                <Trigger Property="IsMouseOver" Value="True">
+                    <Setter Property="Background" Value="#FF6B2C"/>
+                </Trigger>
+            </Style.Triggers>
         </Style>
+
         <Style TargetType="DataGridCell">
-            <Setter Property="BorderBrush" Value="#E0E0E0"/>
+            <Setter Property="BorderBrush" Value="#FFD699"/>
             <Setter Property="BorderThickness" Value="0,0,0,1"/>
-            <Setter Property="Padding" Value="6,4"/>
+            <Setter Property="Padding" Value="8,6"/>
+            <Setter Property="Foreground" Value="#1E2F3F"/>
+            <Setter Property="Background" Value="Transparent"/>
+        </Style>
+
+        <Style TargetType="DataGridRow">
+            <Style.Triggers>
+                <Trigger Property="IsMouseOver" Value="True">
+                    <Setter Property="Background" Value="#FFE0B5"/>
+                    <Setter Property="Foreground" Value="#1A2A3A"/>
+                </Trigger>
+                <Trigger Property="IsSelected" Value="True">
+                    <Setter Property="Background" Value="#FFB347"/>
+                    <Setter Property="Foreground" Value="#FFFFFF"/>
+                </Trigger>
+            </Style.Triggers>
         </Style>
 
         <BooleanToVisibilityConverter x:Key="BoolToVisibility"/>

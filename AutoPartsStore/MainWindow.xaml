@@ -9,7 +9,7 @@
     <DockPanel>
 
         <Border DockPanel.Dock="Top"
-                Background="{StaticResource PrimaryDarkBrush}"
+                Background="#B588F7"
                 Padding="10">
 
             <Grid>
@@ -81,6 +81,7 @@
 
                     <Button Content="Выйти"
                             Background="{StaticResource SecondaryBrush}"
+                            BorderBrush="Orange"
                             Foreground="White"
                             Command="{Binding LogoutCommand}"
                             Padding="10,5"
